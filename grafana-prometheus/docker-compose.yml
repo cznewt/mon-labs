@@ -2,6 +2,22 @@ networks:
   overlay:
     name: overlay
 services:
+  alertmanager:
+    command:
+      - --config.file=/etc/alertmanager/config.yml
+      - --storage.path=/alertmanager
+    devices: []
+    environment: []
+    image: prom/alertmanager:v0.15.2
+    networks:
+      - overlay
+    ports:
+      - 9093:9093/tcp
+    restart: always
+    volumes:
+      - ./config/alertmanager/:/etc/alertmanager:rw
+      - ./config/alertmanager_templates/:/etc/alertmanager-templates:rw
+      - ./volume/alertmanager/:/alertmanager:rw
   blackbox-exporter:
     command:
       - --config.file=/etc/blackbox-exporter/config.yml

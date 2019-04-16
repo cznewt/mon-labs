@@ -1,0 +1,10 @@
+{{ define "__single_message_title" }}{{ if gt (len .Alerts.Firing) 0 }}{{ (index .Alerts.Firing 0).Labels.alertname }}{{ end }}{{ if gt (len .Alerts.Resolved) 0 }}{{ (index .Alerts.Resolved 0).Labels.alertname }}{{ end }}{{ end }}
+{{ define "custom_title" }}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}{{ if eq .Status "resolved" }}:{{ .Alerts.Resolved | len }}{{ end }}] {{ template "__single_message_title" . }}{{ end }}
+{{ define "custom_slack_message" }}
+{{ if gt (len .Alerts.Firing) 0 }}
+{{ range .Alerts.Firing }}- *{{ .Labels.instance }}* {{ .Annotations.description }}
+{{ end }}{{ end }}
+{{ if gt (len .Alerts.Resolved) 0 }}
+{{ range .Alerts.Resolved }}- *{{ .Labels.instance }}* {{ .Annotations.description }} *RESOLVED*
+{{ end }}{{ end }}
+{{ end }}

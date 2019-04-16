@@ -4,4 +4,6 @@ grafana-prometheus/volume/grafana/dashboards/
 grafana-prometheus/volume/grafana/plugins/
 grafana-prometheus/volume/grafana/png/
 grafana-prometheus/volume/grafana/grafana.db
+grafana-prometheus/volume/alertmanager/nflog
+grafana-prometheus/volume/alertmanager/silences
 kubernetes-mixin/

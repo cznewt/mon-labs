@@ -1,0 +1,22 @@
+global:
+  resolve_timeout: 5m
+receivers:
+  - name: default
+route:
+  group_by:
+    - alertname
+  group_interval: 5m
+  group_wait: 30s
+  receiver: default
+  repeat_interval: 60m
+  routes: []
+templates:
+  - /etc/alertmanager-templates/*.tmpl
+inhibit_rules:
+- source_match:
+    severity: 'critical'
+  target_match:
+    severity: 'warning'
+  # Apply inhibition if the alertname is the same.
+  equal: ['alertname', 'cluster', 'service']
+
