@@ -3,6 +3,7 @@
 git clone https://github.com/kubernetes-monitoring/kubernetes-mixin
 cd kubernetes-mixin
 jb install
+make clean
 make dashboards_out
 cp dashboards_out/* ../grafana-prometheus/config/grafana_dashboards
 make prometheus_alerts.yaml
