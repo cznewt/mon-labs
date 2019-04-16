@@ -1,0 +1,11 @@
+[Install]
+WantedBy = multi-user.target
+[Service]
+ExecStart = /usr/local/bin/node_exporter
+Restart = on-failure
+RestartSec = 5
+Type = simple
+User = root
+[Unit]
+After = network.target
+Description = Node Exporter

@@ -1,0 +1,229 @@
+groups:
+  - name: node
+    rules:
+      - alert: NodeFilesystemSpaceFillingUp
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            is predicted to run out of space within the next 24 hours.
+        expr: 'predict_linear(node_filesystem_avail_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}[6h],
+          24*60*60) < 0
+
+          and
+
+          node_filesystem_avail_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_size_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          < 0.4
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: warning
+      - alert: NodeFilesystemSpaceFillingUp
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            is predicted to run out of space within the next 4 hours.
+        expr: 'predict_linear(node_filesystem_avail_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}[6h],
+          4*60*60) < 0
+
+          and
+
+          node_filesystem_avail_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_size_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          < 0.2
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: critical
+      - alert: NodeFilesystemOutOfSpace
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            has only {{ $value }}% available space left.
+        expr: 'node_filesystem_avail_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_size_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          * 100 < 5
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: warning
+      - alert: NodeFilesystemOutOfSpace
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            has only {{ $value }}% available space left.
+        expr: 'node_filesystem_avail_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_size_bytes{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          * 100 < 3
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: critical
+      - alert: NodeFilesystemFilesFillingUp
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            is predicted to run out of files within the next 24 hours.
+        expr: 'predict_linear(node_filesystem_files_free{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}[6h],
+          24*60*60) < 0
+
+          and
+
+          node_filesystem_files_free{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_files{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          < 0.4
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: warning
+      - alert: NodeFilesystemFilesFillingUp
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            is predicted to run out of files within the next 4 hours.
+        expr: 'predict_linear(node_filesystem_files_free{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}[6h],
+          4*60*60) < 0
+
+          and
+
+          node_filesystem_files_free{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_files{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          < 0.2
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: warning
+      - alert: NodeFilesystemOutOfFiles
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            has only {{ $value }}% available inodes left.
+        expr: 'node_filesystem_files_free{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_files{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          * 100 < 5
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: warning
+      - alert: NodeFilesystemOutOfSpace
+        annotations:
+          description: Filesystem on {{ $labels.device }} at {{ $labels.instance }}
+            has only {{ $value }}% available space left.
+        expr: 'node_filesystem_files_free{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          / node_filesystem_files{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          * 100 < 3
+
+          and
+
+          node_filesystem_readonly{job="node",fstype=~"ext.|xfs",mountpoint!="/var/lib/docker/aufs"}
+          == 0
+
+          '
+        for: 1h
+        labels:
+          severity: critical
+      - alert: NodeNetworkReceiveErrs
+        annotations:
+          description: '{{ $labels.instance }} interface {{ $labels.device }} shows
+            errors while receiving packets ({{ $value }} errors in two minutes).'
+        expr: 'increase(node_network_receive_errs_total[2m]) > 10
+
+          '
+        for: 1h
+        labels:
+          severity: critical
+      - alert: NodeNetworkTransmitErrs
+        annotations:
+          description: '{{ $labels.instance }} interface {{ $labels.device }} shows
+            errors while transmitting packets ({{ $value }} errors in two minutes).'
+        expr: 'increase(node_network_transmit_errs_total[2m]) > 10
+
+          '
+        for: 1h
+        labels:
+          severity: critical
+  - name: prometheus
+    rules:
+      - alert: PromBadConfig
+        annotations:
+          description: Prometheus failed to reload config, see container logs
+        expr: 'prometheus_config_last_reload_successful == 0
+
+          '
+        for: 15m
+        labels:
+          severity: critical
+      - alert: PromAlertmanagerBadConfig
+        annotations:
+          description: Alertmanager failed to reload config, see container logs
+        expr: 'alertmanager_config_last_reload_successful == 0
+
+          '
+        for: 10m
+        labels:
+          severity: critical
+      - alert: PromAlertsFailed
+        annotations:
+          description: Alertmanager failed to send {{ printf "%.1f" $value }}% alerts
+            to {{ $labels.integration }}.
+        expr: '100 * rate(alertmanager_notifications_failed_total[5m]) / rate(alertmanager_notifications_total{job="alertmanager"}[5m])
+          > 1
+
+          '
+        for: 5m
+        labels:
+          severity: critical
+      - alert: PromRemoteStorageFailures
+        annotations:
+          description: Prometheus failed to send {{ printf "%.1f" $value }}% samples
+        expr: "(rate(prometheus_remote_storage_failed_samples_total[1m]) * 100)\n\
+          \  /\n(rate(prometheus_remote_storage_failed_samples_total[1m]) + rate(prometheus_remote_storage_succeeded_samples_total{job=\"\
+          prometheus\"}[1m]))\n  > 5\n"
+        for: 15m
+        labels:
+          severity: critical
+      - alert: PromRuleFailures
+        annotations:
+          description: Prometheus failed to evaluate {{ printf "%.1f" $value }} rules
+            / s
+        expr: 'rate(prometheus_rule_evaluation_failures_total[1m]) > 0
+
+          '
+        for: 15m
+        labels:
+          severity: critical

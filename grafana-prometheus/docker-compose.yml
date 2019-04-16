@@ -1,0 +1,105 @@
+networks:
+  overlay:
+    name: overlay
+services:
+  blackbox-exporter:
+    command:
+      - --config.file=/etc/blackbox-exporter/config.yml
+    devices: []
+    environment: []
+    image: prom/blackbox-exporter:v0.12.0
+    networks:
+      - overlay
+    ports:
+      - 9115:9115/tcp
+    restart: always
+    volumes:
+      - ./config/blackbox_exporter/:/etc/blackbox-exporter:rw
+  cadvisor:
+    command: []
+    devices: []
+    environment: []
+    image: google/cadvisor:v0.31.0
+    networks:
+      - overlay
+    ports:
+      - 8080:8080/tcp
+    restart: always
+    volumes:
+      - /var/lib/docker:/var/lib/docker:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+  grafana:
+    command: []
+    devices: []
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-worldmap-panel,natel-discrete-panel,jdbranham-diagram-panel,neocat-cal-heatmap-panel,grafana-simple-json-datasource,grafana-azure-monitor-datasource,camptocamp-prometheus-alertmanager-datasource
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_SECURITY_ADMIN_PASSWORD=heslo
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    image: grafana/grafana:6.0.1
+    networks:
+      - overlay
+    ports:
+      - 3000:3000/tcp
+    restart: always
+    volumes:
+      - ./config/grafana_provision_dashboards/:/etc/grafana/provisioning/dashboards:rw
+      - ./config/grafana_dashboards/:/var/lib/grafana/dashboards:rw
+      - ./config/grafana_provision_datasources/:/etc/grafana/provisioning/datasources:rw
+      - ./volume/grafana/:/var/lib/grafana:rw
+  node-exporter:
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.ignored-mount-points
+      - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
+    devices: []
+    environment: []
+    image: prom/node-exporter:v0.16.0
+    networks:
+      - overlay
+    ports:
+      - 9100:9100/tcp
+    restart: always
+    volumes:
+      - /proc:/host/proc:ro
+      - /:/rootfs:ro
+      - /sys:/host/sys:ro
+  prometheus:
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+      - --storage.tsdb.path=/data
+      - --storage.tsdb.retention=14d
+      - --web.enable-lifecycle
+    devices: []
+    environment: []
+    image: prom/prometheus:v2.8.0
+    networks:
+      - overlay
+    ports:
+      - 9090:9090/tcp
+    restart: always
+    volumes:
+      - ./config/prometheus_rules/:/etc/prometheus-rules/:rw
+      - ./config/prometheus/:/etc/prometheus/:rw
+      - ./volume/prometheus/:/data:rw
+  statsd-exporter:
+    command:
+      - --statsd.mapping-config=/etc/statsd-exporter/mapping.yml
+    devices: []
+    environment: []
+    image: prom/statsd-exporter:v0.7.0
+    networks:
+      - overlay
+    ports:
+      - 9102:9102/tcp
+      - 9125:9125/tcp
+      - 9125:9125/udp
+    restart: always
+    volumes:
+      - ./config/statsd_exporter/:/etc/statsd-exporter/:rw
+version: '3.5'
+volumes: {}
