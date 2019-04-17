@@ -177,8 +177,36 @@ groups:
         for: 1h
         labels:
           severity: critical
+      - alert: NodeUptimeA
+        annotations:
+          description: Node has uptime greater than 0
+        expr: '(time() - node_boot_time_seconds) > 0'
+        for: 1m
+        labels:
+          severity: test
+      - alert: NodeUptimeB
+        annotations:
+          description: Node has uptime greater than 0
+        expr: '(time() - node_boot_time_seconds) > 0'
+        for: 1m
+        labels:
+          severity: test
+      - alert: NodeUptimeC
+        annotations:
+          description: Node has uptime greater than 0
+        expr: '(time() - node_boot_time_seconds) > 0'
+        for: 1m
+        labels:
+          severity: test
   - name: prometheus
     rules:
+      - alert: PromScrapeDown
+        annotations:
+          description: Prometheus failed to scrape target
+        expr: 'up == 0'
+        for: 2m
+        labels:
+          severity: critical
       - alert: PromBadConfig
         annotations:
           description: Prometheus failed to reload config, see container logs

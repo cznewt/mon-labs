@@ -23,3 +23,9 @@ inhibit_rules:
   # Apply inhibition if the alertname is the same.
   equal: ['alertname', 'cluster', 'service']
 
+- source_match:
+    alertname: 'NodeUptimeA'
+  target_match_re:
+    alertname: (.+)
+  equal:
+  - instance
