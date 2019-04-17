@@ -2,9 +2,6 @@ global:
   resolve_timeout: 5m
 receivers:
   - name: default
-  - name: emails
-    email_configs:
-    - to: alerts@example.org
 route:
   group_by:
     - alertname
@@ -15,7 +12,7 @@ route:
   routes:
   - match_re:
       service: ^(foo1|foo2|baz)$
-    receiver: email
+    receiver: default
 templates:
   - /etc/alertmanager-templates/*.tmpl
 inhibit_rules:
