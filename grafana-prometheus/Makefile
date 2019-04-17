@@ -8,7 +8,7 @@ help:
 	@echo "  status                 Get service resources"
 
 apply:
-	chmod 777 ./volume/* -R
+	sudo chmod 777 ./volume/* -R
 	docker-compose -p grafana_prom_devel up -d
 
 delete:

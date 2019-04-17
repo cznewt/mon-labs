@@ -3,6 +3,14 @@ convert_grafana_dashboards:
 	mkdir grafana_out -p
 	./jsonnet-utils/venv/bin/jsonnet-utils-grafana-convert --build-path=./grafana_out --source-path=./grafana-prometheus/config/grafana_dashboards
 
+grafana_metrics:
+	mkdir grafana_out -p
+	./jsonnet-utils/venv/bin/jsonnet-utils-grafana-metrics --path=./grafana-prometheus/config/grafana_dashboards
+
+prometheus_metrics:
+	mkdir grafana_out -p
+	./jsonnet-utils/venv/bin/jsonnet-utils-prometheus-metrics --path=./grafana-prometheus/config/prometheus_rules
+
 convert_prometheus_rules:
 	mkdir prometheus_out -p
 	./jsonnet-utils/venv/bin/jsonnet-utils-prometheus-convert --build-path=./prometheus_out --source-path=./grafana-prometheus/config/prometheus_rules
