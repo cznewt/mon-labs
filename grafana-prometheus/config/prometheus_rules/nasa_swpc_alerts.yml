@@ -1,0 +1,64 @@
+{
+   "groups": [
+      {
+         "name": "solar-wind",
+         "rules": [
+            {
+               "alert": "solar_wind_speed_warning",
+               "annotations": {
+                  "message": "Minor increase in solar wind speed"
+               },
+               "expr": "solar_wind_speed{job=~\"$job\"} > 500\n",
+               "for": "15m",
+               "labels": {
+                  "severity": "warning"
+               }
+            },
+            {
+               "alert": "solar_wind_speed_critical",
+               "annotations": {
+                  "message": "Major increase in solar wind speed"
+               },
+               "expr": "solar_wind_speed{job=~\"$job\"} > 1000\n",
+               "for": "3m",
+               "labels": {
+                  "severity": "critical"
+               }
+            },
+            {
+               "alert": "solar_wind_density_warning",
+               "annotations": {
+                  "message": "Minor increase in solar wind density"
+               },
+               "expr": "solar_wind_density{job=~\"$job\"} > 30\n",
+               "for": "15m",
+               "labels": {
+                  "severity": "warning"
+               }
+            },
+            {
+               "alert": "solar_wind_density_critical",
+               "annotations": {
+                  "message": "Incoming major solar wind shock wave (conceal all electronic)"
+               },
+               "expr": "solar_wind_density{job=~\"$job\"} > 100\n",
+               "for": "3m",
+               "labels": {
+                  "severity": "critical"
+               }
+            },
+            {
+               "alert": "solar_wind_density_fatal",
+               "annotations": {
+                  "message": "Incoming fatal solar wind shock wave (enjoy time you have left)"
+               },
+               "expr": "solar_wind_density{job=~\"$job\"} > 500\n",
+               "for": "3m",
+               "labels": {
+                  "severity": "fatal"
+               }
+            }
+         ]
+      }
+   ]
+}

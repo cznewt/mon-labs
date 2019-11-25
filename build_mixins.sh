@@ -39,3 +39,19 @@ if test -d etcd-mixin; then
 else
     echo "etcd-mixin does not exist, skipping."
 fi
+
+if test -d nasa-swpc-mixin; then
+    # build nasa-swpc-mixin
+    jsonnet -J nasa-swpc-mixin/vendor -m grafana-prometheus/config/prometheus_rules nasa-swpc-prometheus.jsonnet
+    jsonnet -J nasa-swpc-mixin/vendor -m grafana-prometheus/config/grafana_dashboards nasa-swpc-grafana.jsonnet
+else
+    echo "nasa-swpc-mixin does not exist, skipping."
+fi
+
+if test -d elasticsearch-mixin; then
+    # build elasticsearch-mixin
+    jsonnet -J elasticsearch-mixin/vendor -m grafana-prometheus/config/prometheus_rules elasticsearch-prometheus.jsonnet
+    jsonnet -J elasticsearch-mixin/vendor -m grafana-prometheus/config/grafana_dashboards elasticsearch-grafana.jsonnet
+else
+    echo "elasticsearch-mixin does not exist, skipping."
+fi
