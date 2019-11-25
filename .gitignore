@@ -3,6 +3,7 @@ grafana-prometheus/volume/prometheus/lock
 grafana-prometheus/volume/prometheus/0*/
 grafana-prometheus/volume/prometheus/1*/
 grafana-prometheus/volume/prometheus/2*/
+grafana-prometheus/volume/prometheus/queries.active
 grafana-prometheus/volume/grafana/dashboards/
 grafana-prometheus/volume/grafana/plugins/
 grafana-prometheus/volume/grafana/png/
@@ -10,6 +11,8 @@ grafana-prometheus/volume/grafana/grafana.db
 grafana-prometheus/volume/alertmanager/nflog
 grafana-prometheus/volume/alertmanager/silences
 kubernetes-mixin/
+node-mixin/
+prometheus-mixin/
 jsonnet-utils/
 python-libmetric/
 grafana_out/

@@ -19,7 +19,7 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
-               "fill": 10,
+               "fill": 1,
                "id": 1,
                "legend": {
                   "avg": false,
@@ -31,7 +31,7 @@
                   "values": false
                },
                "lines": true,
-               "linewidth": 0,
+               "linewidth": 1,
                "links": [ ],
                "nullPointMode": "null as zero",
                "percentage": false,
@@ -41,28 +41,128 @@
                "seriesOverrides": [ ],
                "spaceLength": 10,
                "span": 12,
-               "stack": true,
+               "stack": false,
                "steppedLine": false,
+               "styles": [
+                  {
+                     "alias": "Time",
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "pattern": "Time",
+                     "type": "hidden"
+                  },
+                  {
+                     "alias": "Count",
+                     "colorMode": null,
+                     "colors": [ ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "link": false,
+                     "linkTooltip": "Drill down",
+                     "linkUrl": "",
+                     "pattern": "Value #A",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Uptime",
+                     "colorMode": null,
+                     "colors": [ ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "link": false,
+                     "linkTooltip": "Drill down",
+                     "linkUrl": "",
+                     "pattern": "Value #B",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Instance",
+                     "colorMode": null,
+                     "colors": [ ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "link": false,
+                     "linkTooltip": "Drill down",
+                     "linkUrl": "",
+                     "pattern": "instance",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Job",
+                     "colorMode": null,
+                     "colors": [ ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "link": false,
+                     "linkTooltip": "Drill down",
+                     "linkUrl": "",
+                     "pattern": "job",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Version",
+                     "colorMode": null,
+                     "colors": [ ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "link": false,
+                     "linkTooltip": "Drill down",
+                     "linkUrl": "",
+                     "pattern": "version",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "",
+                     "colorMode": null,
+                     "colors": [ ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "pattern": "/.*/",
+                     "thresholds": [ ],
+                     "type": "string",
+                     "unit": "short"
+                  }
+               ],
                "targets": [
                   {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=\"$namespace\", pod=\"$pod\", container!=\"POD\", cluster=\"$cluster\"}) by (container)",
-                     "format": "time_series",
+                     "expr": "count by (job, instance, version) (prometheus_build_info{job=~\"$job\", instance=~\"$instance\"})",
+                     "format": "table",
+                     "instant": true,
                      "intervalFactor": 2,
-                     "legendFormat": "{{container}}",
-                     "legendLink": null,
+                     "legendFormat": "",
+                     "refId": "A",
+                     "step": 10
+                  },
+                  {
+                     "expr": "max by (job, instance) (time() - process_start_time_seconds{job=~\"$job\", instance=~\"$instance\"})",
+                     "format": "table",
+                     "instant": true,
+                     "intervalFactor": 2,
+                     "legendFormat": "",
+                     "refId": "B",
                      "step": 10
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "CPU Usage",
+               "title": "Prometheus Stats",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
-               "type": "graph",
+               "transform": "table",
+               "type": "table",
                "xaxis": {
                   "buckets": null,
                   "mode": "time",
@@ -94,7 +194,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "CPU Usage",
+         "title": "Prometheus Stats",
          "titleSize": "h6"
       },
       {
@@ -128,170 +228,29 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": false,
                "steppedLine": false,
-               "styles": [
-                  {
-                     "alias": "Time",
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "pattern": "Time",
-                     "type": "hidden"
-                  },
-                  {
-                     "alias": "CPU Usage",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #A",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "CPU Requests",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #B",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "CPU Requests %",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #C",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "percentunit"
-                  },
-                  {
-                     "alias": "CPU Limits",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #D",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "CPU Limits %",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #E",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "percentunit"
-                  },
-                  {
-                     "alias": "Container",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "container",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "pattern": "/.*/",
-                     "thresholds": [ ],
-                     "type": "string",
-                     "unit": "short"
-                  }
-               ],
                "targets": [
                   {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container!=\"POD\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
+                     "expr": "sum(rate(prometheus_target_sync_length_seconds_sum{job=~\"$job\",instance=~\"$instance\"}[5m])) by (scrape_job) * 1e3",
+                     "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "A",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(kube_pod_container_resource_requests_cpu_cores{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "B",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container) / sum(kube_pod_container_resource_requests_cpu_cores{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "C",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(kube_pod_container_resource_limits_cpu_cores{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "D",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container) / sum(kube_pod_container_resource_limits_cpu_cores{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "E",
+                     "legendFormat": "{{scrape_job}}",
+                     "legendLink": null,
                      "step": 10
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "CPU Quota",
+               "title": "Target Sync",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
-               "transform": "table",
-               "type": "table",
+               "type": "graph",
                "xaxis": {
                   "buckets": null,
                   "mode": "time",
@@ -301,7 +260,7 @@
                },
                "yaxes": [
                   {
-                     "format": "short",
+                     "format": "ms",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -317,19 +276,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "CPU Quota",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -357,31 +304,15 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(container_memory_rss{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container!=\"POD\", container!=\"\"}) by (container)",
+                     "expr": "sum(prometheus_sd_discovered_targets{job=~\"$job\",instance=~\"$instance\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{container}} (RSS)",
-                     "legendLink": null,
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(container_memory_cache{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container!=\"POD\", container!=\"\"}) by (container)",
-                     "format": "time_series",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{container}} (Cache)",
-                     "legendLink": null,
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(container_memory_swap{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container!=\"POD\", container!=\"\"}) by (container)",
-                     "format": "time_series",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{container}} (Swap)",
+                     "legendFormat": "Targets",
                      "legendLink": null,
                      "step": 10
                   }
@@ -389,9 +320,9 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Memory Usage",
+               "title": "Targets",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -405,7 +336,7 @@
                },
                "yaxes": [
                   {
-                     "format": "bytes",
+                     "format": "short",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -427,7 +358,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Memory Usage",
+         "title": "Discovery",
          "titleSize": "h6"
       },
       {
@@ -461,239 +392,29 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 4,
                "stack": false,
                "steppedLine": false,
-               "styles": [
-                  {
-                     "alias": "Time",
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "pattern": "Time",
-                     "type": "hidden"
-                  },
-                  {
-                     "alias": "Memory Usage",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #A",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "bytes"
-                  },
-                  {
-                     "alias": "Memory Requests",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #B",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "bytes"
-                  },
-                  {
-                     "alias": "Memory Requests %",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #C",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "percentunit"
-                  },
-                  {
-                     "alias": "Memory Limits",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #D",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "bytes"
-                  },
-                  {
-                     "alias": "Memory Limits %",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #E",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "percentunit"
-                  },
-                  {
-                     "alias": "Memory Usage (RSS)",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #F",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "bytes"
-                  },
-                  {
-                     "alias": "Memory Usage (Cache)",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #G",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "bytes"
-                  },
-                  {
-                     "alias": "Memory Usage (Swap)",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "Value #H",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "bytes"
-                  },
-                  {
-                     "alias": "Container",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "link": false,
-                     "linkTooltip": "Drill down",
-                     "linkUrl": "",
-                     "pattern": "container",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "",
-                     "colorMode": null,
-                     "colors": [ ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "pattern": "/.*/",
-                     "thresholds": [ ],
-                     "type": "string",
-                     "unit": "short"
-                  }
-               ],
                "targets": [
                   {
-                     "expr": "sum(container_memory_working_set_bytes{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container!=\"POD\", container!=\"\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
+                     "expr": "rate(prometheus_target_interval_length_seconds_sum{job=~\"$job\",instance=~\"$instance\"}[5m]) / rate(prometheus_target_interval_length_seconds_count{job=~\"$job\",instance=~\"$instance\"}[5m]) * 1e3",
+                     "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "A",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(kube_pod_container_resource_requests_memory_bytes{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "B",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(container_memory_working_set_bytes{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}) by (container) / sum(kube_pod_container_resource_requests_memory_bytes{namespace=\"$namespace\", pod=\"$pod\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "C",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(kube_pod_container_resource_limits_memory_bytes{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container!=\"\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "D",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(container_memory_working_set_bytes{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container!=\"\"}) by (container) / sum(kube_pod_container_resource_limits_memory_bytes{namespace=\"$namespace\", pod=\"$pod\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "E",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(container_memory_rss{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container != \"\", container != \"POD\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "F",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(container_memory_cache{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container != \"\", container != \"POD\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "G",
-                     "step": 10
-                  },
-                  {
-                     "expr": "sum(container_memory_swap{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container != \"\", container != \"POD\"}) by (container)",
-                     "format": "table",
-                     "instant": true,
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "H",
+                     "legendFormat": "{{interval}} configured",
+                     "legendLink": null,
                      "step": 10
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Memory Quota",
+               "title": "Average Scrape Interval Duration",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
-               "transform": "table",
-               "type": "table",
+               "type": "graph",
                "xaxis": {
                   "buckets": null,
                   "mode": "time",
@@ -703,7 +424,7 @@
                },
                "yaxes": [
                   {
-                     "format": "short",
+                     "format": "ms",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -719,19 +440,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Memory Quota",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -759,15 +468,39 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 4,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(irate(container_network_receive_bytes_total{namespace=~\"$namespace\", pod=~\"$pod\"}[$interval])) by (pod)",
+                     "expr": "sum by (job) (rate(prometheus_target_scrapes_exceeded_sample_limit_total[1m]))",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{pod}}",
+                     "legendFormat": "exceeded sample limit: {{job}}",
+                     "legendLink": null,
+                     "step": 10
+                  },
+                  {
+                     "expr": "sum by (job) (rate(prometheus_target_scrapes_sample_duplicate_timestamp_total[1m]))",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "duplicate timestamp: {{job}}",
+                     "legendLink": null,
+                     "step": 10
+                  },
+                  {
+                     "expr": "sum by (job) (rate(prometheus_target_scrapes_sample_out_of_bounds_total[1m]))",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "out of bounds: {{job}}",
+                     "legendLink": null,
+                     "step": 10
+                  },
+                  {
+                     "expr": "sum by (job) (rate(prometheus_target_scrapes_sample_out_of_order_total[1m]))",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "out of order: {{job}}",
                      "legendLink": null,
                      "step": 10
                   }
@@ -775,9 +508,9 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Receive Bandwidth",
+               "title": "Scrape failures",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -791,7 +524,7 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "short",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -807,19 +540,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Network",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -847,15 +568,15 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 4,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(irate(container_network_transmit_bytes_total{namespace=~\"$namespace\", pod=~\"$pod\"}[$interval])) by (pod)",
+                     "expr": "rate(prometheus_tsdb_head_samples_appended_total{job=~\"$job\",instance=~\"$instance\"}[5m])",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{pod}}",
+                     "legendFormat": "{{job}} {{instance}}",
                      "legendLink": null,
                      "step": 10
                   }
@@ -863,9 +584,9 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Transmit Bandwidth",
+               "title": "Appended Samples",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -879,7 +600,7 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "short",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -901,7 +622,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Network",
+         "title": "Retrieval",
          "titleSize": "h6"
       },
       {
@@ -935,15 +656,15 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(irate(container_network_receive_packets_total{namespace=~\"$namespace\", pod=~\"$pod\"}[$interval])) by (pod)",
+                     "expr": "prometheus_tsdb_head_series{job=~\"$job\",instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{pod}}",
+                     "legendFormat": "{{job}} {{instance}} head series",
                      "legendLink": null,
                      "step": 10
                   }
@@ -951,9 +672,9 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Rate of Received Packets",
+               "title": "Head Series",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -967,7 +688,7 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "short",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -983,19 +704,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Network",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -1023,15 +732,15 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(irate(container_network_transmit_packets_total{namespace=~\"$namespace\", pod=~\"$pod\"}[$interval])) by (pod)",
+                     "expr": "prometheus_tsdb_head_chunks{job=~\"$job\",instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{pod}}",
+                     "legendFormat": "{{job}} {{instance}} head chunks",
                      "legendLink": null,
                      "step": 10
                   }
@@ -1039,9 +748,9 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Rate of Transmitted Packets",
+               "title": "Head Chunks",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -1055,7 +764,7 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "short",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -1077,7 +786,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Network",
+         "title": "Storage",
          "titleSize": "h6"
       },
       {
@@ -1111,15 +820,15 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(irate(container_network_receive_packets_dropped_total{namespace=~\"$namespace\", pod=~\"$pod\"}[$interval])) by (pod)",
+                     "expr": "rate(prometheus_engine_query_duration_seconds_count{job=~\"$job\",instance=~\"$instance\",slice=\"inner_eval\"}[5m])",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{pod}}",
+                     "legendFormat": "{{job}} {{instance}}",
                      "legendLink": null,
                      "step": 10
                   }
@@ -1127,9 +836,9 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Rate of Received Packets Dropped",
+               "title": "Query Rate",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -1143,7 +852,7 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "short",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -1159,19 +868,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Network",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -1199,15 +896,15 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(irate(container_network_transmit_packets_dropped_total{namespace=~\"$namespace\", pod=~\"$pod\"}[$interval])) by (pod)",
+                     "expr": "max by (slice) (prometheus_engine_query_duration_seconds{quantile=\"0.9\",job=~\"$job\",instance=~\"$instance\"}) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{pod}}",
+                     "legendFormat": "{{slice}}",
                      "legendLink": null,
                      "step": 10
                   }
@@ -1215,9 +912,9 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Rate of Transmitted Packets Dropped",
+               "title": "Stage Duration",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -1231,7 +928,7 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "ms",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -1253,15 +950,13 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Network",
+         "title": "Query",
          "titleSize": "h6"
       }
    ],
    "schemaVersion": 14,
    "style": "dark",
-   "tags": [
-      "kubernetes-mixin"
-   ],
+   "tags": [ ],
    "templating": {
       "list": [
          {
@@ -1281,40 +976,18 @@
          {
             "allValue": null,
             "current": {
-               "text": "prod",
-               "value": "prod"
-            },
-            "datasource": "$datasource",
-            "hide": 2,
-            "includeAll": false,
-            "label": "cluster",
-            "multi": false,
-            "name": "cluster",
-            "options": [ ],
-            "query": "label_values(kube_pod_info, cluster)",
-            "refresh": 1,
-            "regex": "",
-            "sort": 2,
-            "tagValuesQuery": "",
-            "tags": [ ],
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
-         },
-         {
-            "allValue": null,
-            "current": {
-               "text": "prod",
-               "value": "prod"
+               "selected": true,
+               "text": "All",
+               "value": "$__all"
             },
             "datasource": "$datasource",
             "hide": 0,
-            "includeAll": false,
-            "label": "namespace",
-            "multi": false,
-            "name": "namespace",
+            "includeAll": true,
+            "label": "job",
+            "multi": true,
+            "name": "job",
             "options": [ ],
-            "query": "label_values(kube_pod_info{cluster=\"$cluster\"}, namespace)",
+            "query": "label_values(prometheus_build_info, job)",
             "refresh": 1,
             "regex": "",
             "sort": 2,
@@ -1327,17 +1000,18 @@
          {
             "allValue": null,
             "current": {
-               "text": "prod",
-               "value": "prod"
+               "selected": true,
+               "text": "All",
+               "value": "$__all"
             },
             "datasource": "$datasource",
             "hide": 0,
-            "includeAll": false,
-            "label": "pod",
-            "multi": false,
-            "name": "pod",
+            "includeAll": true,
+            "label": "instance",
+            "multi": true,
+            "name": "instance",
             "options": [ ],
-            "query": "label_values(kube_pod_info{cluster=\"$cluster\", namespace=\"$namespace\"}, pod)",
+            "query": "label_values(prometheus_build_info, instance)",
             "refresh": 1,
             "regex": "",
             "sort": 2,
@@ -1345,39 +1019,6 @@
             "tags": [ ],
             "tagsQuery": "",
             "type": "query",
-            "useTags": false
-         },
-         {
-            "allValue": null,
-            "auto": false,
-            "auto_count": 30,
-            "auto_min": "10s",
-            "current": {
-               "text": "5m",
-               "value": "5m"
-            },
-            "datasource": "prometheus",
-            "hide": 2,
-            "includeAll": false,
-            "label": null,
-            "multi": false,
-            "name": "interval",
-            "options": [
-               {
-                  "selected": true,
-                  "text": "4h",
-                  "value": "4h"
-               }
-            ],
-            "query": "4h",
-            "refresh": 2,
-            "regex": "",
-            "skipUrlSync": false,
-            "sort": 1,
-            "tagValuesQuery": "",
-            "tags": [ ],
-            "tagsQuery": "",
-            "type": "interval",
             "useTags": false
          }
       ]
@@ -1411,8 +1052,8 @@
          "30d"
       ]
    },
-   "timezone": "",
-   "title": "Kubernetes / Compute Resources / Pod",
-   "uid": "6581e46e4e5c7ba40a07646395ef7b23",
+   "timezone": "utc",
+   "title": "Prometheus",
+   "uid": "",
    "version": 0
 }

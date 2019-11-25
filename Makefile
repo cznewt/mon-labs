@@ -1,4 +1,15 @@
 
+init_base:
+	./init_jsonnet.sh
+	./init_jsonnet_bundler.sh
+
+init_mixins:
+	./init_mixins.sh
+
+init_utils:
+	./init_jsonnet_utils.sh
+	./init_libmetric.sh
+
 convert_grafana_dashboards:
 	mkdir grafana_out -p
 	./jsonnet-utils/venv/bin/jsonnet-utils-grafana-convert --build-path=./grafana_out --source-path=./grafana-prometheus/config/grafana_dashboards
