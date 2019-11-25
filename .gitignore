@@ -13,6 +13,9 @@ grafana-prometheus/volume/alertmanager/silences
 kubernetes-mixin/
 node-mixin/
 prometheus-mixin/
+etcd-mixin/
+elasticsearch-mixin/
+nasa-swpc-mixin/
 jsonnet-utils/
 python-libmetric/
 grafana_out/
