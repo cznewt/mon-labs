@@ -8,7 +8,7 @@ if test -f "$JSONNET_BUNDLER_BIN"; then
 else
     # sjsonnet much faster jsonnet implementation in java
     wget "$JSONNET_BUNDLER_SOURCE"
-	chmod +x jb-linux-amd64
+	sudo chmod +x jb-linux-amd64
 	sudo mv jb-linux-amd64 "$JSONNET_BUNDLER_BIN"
 fi
 
