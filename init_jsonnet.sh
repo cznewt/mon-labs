@@ -12,8 +12,7 @@ else
     rm sjsonnet.jar
 fi
 
+apt install -y default-jre
+
 echo "Requires Java RE, currently installed:"
 java --version
-
-#echo "Jsonnet version:"
-#jsonnet
