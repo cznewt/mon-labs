@@ -27,6 +27,12 @@ Basic overview at https://github.com/monitoring-mixins/docs.
 ## Use JSONNET Utils
 
 * Install utils `./install_jsonnet_utils.sh`.
-* Source `source jsonnet-utils/venv/bin/activate`.
-* Check Grometheus rules `make prometheus_metrics`
+* Source environment with `source jsonnet-utils/venv/bin/activate`.
+* Check Prometheus rules `make prometheus_metrics`
 * Check Grafana metrics `make grafana_metrics`
+
+## Generate mixin with Cookiecutter
+
+* Install utils `./install_jsonnet_utils.sh`.
+* Source environment with `source jsonnet-utils/venv/bin/activate`.
+* Run `cookiecutter mixin-template`
