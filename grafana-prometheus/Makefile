@@ -9,12 +9,12 @@ help:
 
 apply:
 	sudo chmod 777 ./volume/* -R
-	docker-compose -p grafana_prom_devel up -d
+	sudo docker-compose -p grafana_prom_devel up -d
 
 delete:
-	docker-compose -p grafana_prom_devel stop
-	docker-compose -p grafana_prom_devel rm -f
+	sudo docker-compose -p grafana_prom_devel stop
+	sudo docker-compose -p grafana_prom_devel rm -f
 
 status:
 	@echo "Existing resources (project grafana_prom_devel):"
-	docker-compose -p grafana_prom_devel ps
+	sudo docker-compose -p grafana_prom_devel ps
