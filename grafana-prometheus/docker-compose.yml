@@ -102,6 +102,16 @@ services:
       - ./config/prometheus_rules/:/etc/prometheus-rules/:rw
       - ./config/prometheus/:/etc/prometheus/:rw
       - ./volume/prometheus/:/data:rw
+  nasa-swpc-exporter:
+    command: []
+    devices: []
+    environment: []
+    image: cznewt/nasa-swpc-exporter:latest
+    networks:
+      - overlay
+    ports:
+      - 9468:9468/tcp
+    restart: always
   statsd-exporter:
     command:
       - --statsd.mapping-config=/etc/statsd-exporter/mapping.yml

@@ -69,6 +69,14 @@ scrape_configs:
           name: statsd
         targets:
           - statsd-exporter:9102
+      - labels:
+          name: nasa-swpc
+        targets:
+          - nasa-swpc-exporter:9468
+      - labels:
+          name: grafana
+        targets:
+          - grafana:3000
   # Node exporter
   - job_name: node
     metrics_path: /metrics
