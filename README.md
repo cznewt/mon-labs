@@ -22,3 +22,11 @@ Basic overview at https://github.com/monitoring-mixins/docs.
 * nasa-swpc - https://github.com/cznewt/nasa-swpc-exporter/tree/master/nasa-swpc-mixin
 * node-exporter - https://github.com/prometheus/node_exporter/tree/master/docs/node-mixin
 * prometheus - https://github.com/prometheus/prometheus/tree/master/documentation/prometheus-mixin
+
+
+## Use JSONNET Utils
+
+* Install utils `./install_jsonnet_utils.sh`.
+* Source `source jsonnet-utils/venv/bin/activate`.
+* Check Grometheus rules `make prometheus_metrics`
+* Check Grafana metrics `make grafana_metrics`
