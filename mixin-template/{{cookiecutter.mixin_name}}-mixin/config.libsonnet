@@ -1,11 +1,7 @@
 {
   _config+:: {
     // Placed inside {} in prometheus queries
-    {{cookiecutter.mixin_name}}Selector: 'name="{{cookiecutter.mixin_name}}"',
-
-    grafanaDashboardIDs+: {
-      '{{cookiecutter.mixin_name}}.json': '{{cookiecutter.mixin_name}}',
-    },
+    {{cookiecutter.mixin_name}}_selector: 'name="{{cookiecutter.mixin_name}}"',
 
   },
 }
