@@ -58,6 +58,10 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - labels:
+          name: cloudprober
+        targets:
+          - cloudprober:9313
+      - labels:
           name: cadvisor
         targets:
           - cadvisor:8080

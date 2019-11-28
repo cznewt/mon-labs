@@ -3,6 +3,16 @@ init_base:
 	./init_jsonnet.sh
 	./init_jsonnet_bundler.sh
 
+clean:
+	rm -rf "./elasticsearch-mixin"
+	rm -rf "./etcd-mixin"
+	rm -rf "./kubernetes-mixin"
+	rm -rf "./nasa-swpc-mixin"
+	rm -rf "./node-mixin"
+	rm -rf "./prometheus-mixin"
+	rm -rf "./jsonnet-utils"
+	rm -rf "./python-libmetric"
+
 init_mixins:
 	./init_mixins.sh
 

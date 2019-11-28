@@ -48,7 +48,8 @@
             "label": "Others",
             "threshold": 0
          },
-         "datasource": "prometheus",
+         "datasource": "$datasource",
+         "description": "",
          "fontSize": "80%",
          "format": "Bps",
          "gridPos": {
@@ -91,7 +92,8 @@
             "label": "Others",
             "threshold": 0
          },
-         "datasource": "prometheus",
+         "datasource": "$datasource",
+         "description": "",
          "fontSize": "80%",
          "format": "Bps",
          "gridPos": {
@@ -129,47 +131,47 @@
       {
          "columns": [
             {
-               "text": "",
-               "value": ""
+               "text": "Time",
+               "value": "Time"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #A",
+               "value": "Value #A"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #B",
+               "value": "Value #B"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #C",
+               "value": "Value #C"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #D",
+               "value": "Value #D"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #E",
+               "value": "Value #E"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #F",
+               "value": "Value #F"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #G",
+               "value": "Value #G"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "Value #H",
+               "value": "Value #H"
             },
             {
-               "text": "",
-               "value": ""
+               "text": "namespace",
+               "value": "namespace"
             }
          ],
-         "datasource": "prometheus",
+         "datasource": "$datasource",
          "fill": 1,
          "fontSize": "90%",
          "gridPos": {
@@ -202,7 +204,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Time",
                "thresholds": [ ],
                "type": "hidden",
                "unit": "short"
@@ -216,7 +218,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #A",
                "thresholds": [ ],
                "type": "number",
                "unit": "Bps"
@@ -230,7 +232,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #B",
                "thresholds": [ ],
                "type": "number",
                "unit": "Bps"
@@ -244,7 +246,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #C",
                "thresholds": [ ],
                "type": "number",
                "unit": "Bps"
@@ -258,7 +260,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #D",
                "thresholds": [ ],
                "type": "number",
                "unit": "Bps"
@@ -272,7 +274,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #E",
                "thresholds": [ ],
                "type": "number",
                "unit": "pps"
@@ -286,7 +288,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #F",
                "thresholds": [ ],
                "type": "number",
                "unit": "pps"
@@ -300,7 +302,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #G",
                "thresholds": [ ],
                "type": "number",
                "unit": "pps"
@@ -314,7 +316,7 @@
                "link": false,
                "linkTooltip": "Drill down",
                "linkUrl": "",
-               "pattern": "",
+               "pattern": "Value #H",
                "thresholds": [ ],
                "type": "number",
                "unit": "pps"
@@ -328,7 +330,7 @@
                "link": true,
                "linkTooltip": "Drill down",
                "linkUrl": "d/8b7a8b326d7a6f1f04244066368c67af/kubernetes-networking-namespace-pods?orgId=1&refresh=30s&var-namespace=$__cell",
-               "pattern": "",
+               "pattern": "namespace",
                "thresholds": [ ],
                "type": "number",
                "unit": "short"
@@ -408,6 +410,8 @@
                "step": 10
             }
          ],
+         "timeFrom": null,
+         "timeShift": null,
          "title": "Current Status",
          "type": "table"
       },
@@ -430,7 +434,8 @@
                   "label": "Others",
                   "threshold": 0
                },
-               "datasource": "prometheus",
+               "datasource": "$datasource",
+               "description": "",
                "fontSize": "80%",
                "format": "Bps",
                "gridPos": {
@@ -473,7 +478,8 @@
                   "label": "Others",
                   "threshold": 0
                },
-               "datasource": "prometheus",
+               "datasource": "$datasource",
+               "description": "",
                "fontSize": "80%",
                "format": "Bps",
                "gridPos": {
@@ -541,7 +547,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "prometheus",
+         "datasource": "$datasource",
          "fill": 2,
          "gridPos": {
             "h": 9,
@@ -630,7 +636,7 @@
          "bars": false,
          "dashLength": 10,
          "dashes": false,
-         "datasource": "prometheus",
+         "datasource": "$datasource",
          "fill": 2,
          "gridPos": {
             "h": 9,
@@ -730,7 +736,7 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "prometheus",
+               "datasource": "$datasource",
                "fill": 2,
                "gridPos": {
                   "h": 9,
@@ -819,7 +825,7 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "prometheus",
+               "datasource": "$datasource",
                "fill": 2,
                "gridPos": {
                   "h": 9,
@@ -928,7 +934,7 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "prometheus",
+               "datasource": "$datasource",
                "fill": 2,
                "gridPos": {
                   "h": 9,
@@ -1017,7 +1023,7 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "prometheus",
+               "datasource": "$datasource",
                "fill": 2,
                "gridPos": {
                   "h": 9,
@@ -1100,6 +1106,196 @@
                      "show": true
                   }
                ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 2,
+               "gridPos": {
+                  "h": 9,
+                  "w": 24,
+                  "x": 0,
+                  "y": 59
+               },
+               "id": 18,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "hideZero": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": true,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [
+                  {
+                     "targetBlank": true,
+                     "title": "What is TCP Retransmit?",
+                     "url": "https://accedian.com/enterprises/blog/network-packet-loss-retransmissions-and-duplicate-acknowledgements/"
+                  }
+               ],
+               "minSpan": 24,
+               "nullPointMode": "connected",
+               "paceLength": 10,
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 24,
+               "stack": true,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sort_desc(sum(rate(node_netstat_Tcp_RetransSegs[$interval:$resolution]) / rate(node_netstat_Tcp_OutSegs[$interval:$resolution])) by (instance))",
+                     "format": "time_series",
+                     "intervalFactor": 1,
+                     "legendFormat": "{{instance}}",
+                     "refId": "A",
+                     "step": 10
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Rate of TCP Retransimts out of all sent segments",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "percentunit",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "percentunit",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 2,
+               "gridPos": {
+                  "h": 9,
+                  "w": 24,
+                  "x": 0,
+                  "y": 59
+               },
+               "id": 19,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "hideZero": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": true,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [
+                  {
+                     "targetBlank": true,
+                     "title": "Why monitor SYN retransmits?",
+                     "url": "https://github.com/prometheus/node_exporter/issues/1023#issuecomment-408128365"
+                  }
+               ],
+               "minSpan": 24,
+               "nullPointMode": "connected",
+               "paceLength": 10,
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 24,
+               "stack": true,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sort_desc(sum(rate(node_netstat_TcpExt_TCPSynRetrans[$interval:$resolution]) / rate(node_netstat_Tcp_RetransSegs[$interval:$resolution])) by (instance))",
+                     "format": "time_series",
+                     "intervalFactor": 1,
+                     "legendFormat": "{{instance}}",
+                     "refId": "A",
+                     "step": 10
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Rate of TCP SYN Retransimts out of all retransmits",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "percentunit",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "percentunit",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  }
+               ]
             }
          ],
          "repeat": null,
@@ -1129,7 +1325,7 @@
                "text": "5m",
                "value": "5m"
             },
-            "datasource": "prometheus",
+            "datasource": "$datasource",
             "hide": 0,
             "includeAll": false,
             "label": null,
@@ -1172,7 +1368,7 @@
                "text": "5m",
                "value": "5m"
             },
-            "datasource": "prometheus",
+            "datasource": "$datasource",
             "hide": 2,
             "includeAll": false,
             "label": null,
@@ -1195,6 +1391,20 @@
             "tagsQuery": "",
             "type": "interval",
             "useTags": false
+         },
+         {
+            "current": {
+               "text": "default",
+               "value": "default"
+            },
+            "hide": 0,
+            "label": null,
+            "name": "datasource",
+            "options": [ ],
+            "query": "prometheus",
+            "refresh": 1,
+            "regex": "",
+            "type": "datasource"
          }
       ]
    },

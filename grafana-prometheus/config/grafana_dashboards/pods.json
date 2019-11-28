@@ -7,7 +7,7 @@
             "builtIn": 1,
             "datasource": "$datasource",
             "enable": true,
-            "expr": "time() == BOOL timestamp(rate(kube_pod_container_status_restarts_total{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[2m]) > 0)",
+            "expr": "time() == BOOL timestamp(rate(kube_pod_container_status_restarts_total{instance=\"kube-state-metrics.kube-system.svc:8080\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[2m]) > 0)",
             "hide": false,
             "iconColor": "rgba(215, 44, 44, 1)",
             "name": "Restarts",
@@ -74,14 +74,14 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_requests{instance=\"kube-state-metrics.kube-system.svc:8080\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Requested: {{ container }}",
                      "refId": "B"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_limits{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_limits{instance=\"kube-state-metrics.kube-system.svc:8080\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Limit: {{ container }}",
@@ -187,14 +187,14 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_requests{instance=\"kube-state-metrics.kube-system.svc:8080\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Requested: {{ container }}",
                      "refId": "B"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_limits{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_limits{instance=\"kube-state-metrics.kube-system.svc:8080\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Limit: {{ container }}",
@@ -385,7 +385,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "max by (container) (kube_pod_container_status_restarts_total{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "max by (container) (kube_pod_container_status_restarts_total{instance=\"kube-state-metrics.kube-system.svc:8080\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Restarts: {{ container }}",
@@ -447,8 +447,8 @@
       "list": [
          {
             "current": {
-               "text": "Prometheus",
-               "value": "Prometheus"
+               "text": "default",
+               "value": "default"
             },
             "hide": 0,
             "label": null,

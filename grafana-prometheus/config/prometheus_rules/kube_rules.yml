@@ -4,21 +4,25 @@
          "name": "kube-apiserver.rules",
          "rules": [
             {
-               "expr": "histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{job=\"kube-apiserver\"}[5m])) without(instance, pod))\n",
+               "expr": "sum(rate(apiserver_request_duration_seconds_sum{subresource!=\"log\",verb!~\"LIST|WATCH|WATCHLIST|PROXY|CONNECT\"}[5m])) without(instance, pod)\n/\nsum(rate(apiserver_request_duration_seconds_count{subresource!=\"log\",verb!~\"LIST|WATCH|WATCHLIST|PROXY|CONNECT\"}[5m])) without(instance, pod)\n",
+               "record": "cluster:apiserver_request_duration_seconds:mean5m"
+            },
+            {
+               "expr": "histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{job=\"kube-apiserver\",subresource!=\"log\",verb!~\"LIST|WATCH|WATCHLIST|PROXY|CONNECT\"}[5m])) without(instance, pod))\n",
                "labels": {
                   "quantile": "0.99"
                },
                "record": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile"
             },
             {
-               "expr": "histogram_quantile(0.9, sum(rate(apiserver_request_duration_seconds_bucket{job=\"kube-apiserver\"}[5m])) without(instance, pod))\n",
+               "expr": "histogram_quantile(0.9, sum(rate(apiserver_request_duration_seconds_bucket{job=\"kube-apiserver\",subresource!=\"log\",verb!~\"LIST|WATCH|WATCHLIST|PROXY|CONNECT\"}[5m])) without(instance, pod))\n",
                "labels": {
                   "quantile": "0.9"
                },
                "record": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile"
             },
             {
-               "expr": "histogram_quantile(0.5, sum(rate(apiserver_request_duration_seconds_bucket{job=\"kube-apiserver\"}[5m])) without(instance, pod))\n",
+               "expr": "histogram_quantile(0.5, sum(rate(apiserver_request_duration_seconds_bucket{job=\"kube-apiserver\",subresource!=\"log\",verb!~\"LIST|WATCH|WATCHLIST|PROXY|CONNECT\"}[5m])) without(instance, pod))\n",
                "labels": {
                   "quantile": "0.5"
                },
@@ -34,7 +38,7 @@
                "record": "namespace:container_cpu_usage_seconds_total:sum_rate"
             },
             {
-               "expr": "sum by (namespace, pod, container) (\n  rate(container_cpu_usage_seconds_total{job=\"cadvisor\", image!=\"\", container!=\"POD\"}[5m])\n) * on (namespace, pod) group_left(node) max by(namespace, pod, node) (kube_pod_info)\n",
+               "expr": "sum by (cluster, namespace, pod, container) (\n  rate(container_cpu_usage_seconds_total{job=\"cadvisor\", image!=\"\", container!=\"POD\"}[5m])\n) * on (cluster, namespace, pod) group_left(node) max by(cluster, namespace, pod, node) (kube_pod_info)\n",
                "record": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate"
             },
             {
@@ -58,29 +62,29 @@
                "record": "namespace:container_memory_usage_bytes:sum"
             },
             {
-               "expr": "sum by (namespace, label_name) (\n    sum(kube_pod_container_resource_requests_memory_bytes{job=\"kube-state-metrics\"} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~\"Pending|Running\"} == 1)) by (namespace, pod)\n  * on (namespace, pod)\n    group_left(label_name) kube_pod_labels{job=\"kube-state-metrics\"}\n)\n",
+               "expr": "sum by (namespace) (\n    sum by (namespace, pod) (\n        max by (namespace, pod, container) (\n            kube_pod_container_resource_requests_memory_bytes{job=\"kube-state-metrics\"}\n        ) * on(namespace, pod) group_left() max by (namespace, pod) (\n            kube_pod_status_phase{phase=~\"Pending|Running\"} == 1\n        )\n    )\n)\n",
                "record": "namespace:kube_pod_container_resource_requests_memory_bytes:sum"
             },
             {
-               "expr": "sum by (namespace, label_name) (\n    sum(kube_pod_container_resource_requests_cpu_cores{job=\"kube-state-metrics\"} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~\"Pending|Running\"} == 1)) by (namespace, pod)\n  * on (namespace, pod)\n    group_left(label_name) kube_pod_labels{job=\"kube-state-metrics\"}\n)\n",
+               "expr": "sum by (namespace) (\n    sum by (namespace, pod) (\n        max by (namespace, pod, container) (\n            kube_pod_container_resource_requests_cpu_cores{job=\"kube-state-metrics\"}\n        ) * on(namespace, pod) group_left() max by (namespace, pod) (\n          kube_pod_status_phase{phase=~\"Pending|Running\"} == 1\n        )\n    )\n)\n",
                "record": "namespace:kube_pod_container_resource_requests_cpu_cores:sum"
             },
             {
-               "expr": "sum(\n  label_replace(\n    label_replace(\n      kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"ReplicaSet\"},\n      \"replicaset\", \"$1\", \"owner_name\", \"(.*)\"\n    ) * on(replicaset, namespace) group_left(owner_name) kube_replicaset_owner{job=\"kube-state-metrics\"},\n    \"workload\", \"$1\", \"owner_name\", \"(.*)\"\n  )\n) by (namespace, workload, pod)\n",
+               "expr": "sum(\n  label_replace(\n    label_replace(\n      kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"ReplicaSet\"},\n      \"replicaset\", \"$1\", \"owner_name\", \"(.*)\"\n    ) * on(replicaset, namespace) group_left(owner_name) kube_replicaset_owner{job=\"kube-state-metrics\"},\n    \"workload\", \"$1\", \"owner_name\", \"(.*)\"\n  )\n) by (cluster, namespace, workload, pod)\n",
                "labels": {
                   "workload_type": "deployment"
                },
                "record": "mixin_pod_workload"
             },
             {
-               "expr": "sum(\n  label_replace(\n    kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"DaemonSet\"},\n    \"workload\", \"$1\", \"owner_name\", \"(.*)\"\n  )\n) by (namespace, workload, pod)\n",
+               "expr": "sum(\n  label_replace(\n    kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"DaemonSet\"},\n    \"workload\", \"$1\", \"owner_name\", \"(.*)\"\n  )\n) by (cluster, namespace, workload, pod)\n",
                "labels": {
                   "workload_type": "daemonset"
                },
                "record": "mixin_pod_workload"
             },
             {
-               "expr": "sum(\n  label_replace(\n    kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"StatefulSet\"},\n    \"workload\", \"$1\", \"owner_name\", \"(.*)\"\n  )\n) by (namespace, workload, pod)\n",
+               "expr": "sum(\n  label_replace(\n    kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"StatefulSet\"},\n    \"workload\", \"$1\", \"owner_name\", \"(.*)\"\n  )\n) by (cluster, namespace, workload, pod)\n",
                "labels": {
                   "workload_type": "statefulset"
                },
@@ -160,7 +164,7 @@
          "name": "node.rules",
          "rules": [
             {
-               "expr": "sum(min(kube_pod_info) by (node))",
+               "expr": "sum(min(kube_pod_info) by (cluster, node))\n",
                "record": ":kube_pod_info_node_count:"
             },
             {
@@ -168,11 +172,11 @@
                "record": "node_namespace_pod:kube_pod_info:"
             },
             {
-               "expr": "count by (node) (sum by (node, cpu) (\n  node_cpu_seconds_total{job=\"node-exporter\"}\n* on (namespace, pod) group_left(node)\n  node_namespace_pod:kube_pod_info:\n))\n",
+               "expr": "count by (cluster, node) (sum by (node, cpu) (\n  node_cpu_seconds_total{job=\"node-exporter\"}\n* on (namespace, pod) group_left(node)\n  node_namespace_pod:kube_pod_info:\n))\n",
                "record": "node:node_num_cpu:sum"
             },
             {
-               "expr": "sum(\n  node_memory_MemAvailable_bytes{job=\"node-exporter\"} or\n  (\n    node_memory_Buffers_bytes{job=\"node-exporter\"} +\n    node_memory_Cached_bytes{job=\"node-exporter\"} +\n    node_memory_MemFree_bytes{job=\"node-exporter\"} +\n    node_memory_Slab_bytes{job=\"node-exporter\"}\n  )\n)\n",
+               "expr": "sum(\n  node_memory_MemAvailable_bytes{job=\"node-exporter\"} or\n  (\n    node_memory_Buffers_bytes{job=\"node-exporter\"} +\n    node_memory_Cached_bytes{job=\"node-exporter\"} +\n    node_memory_MemFree_bytes{job=\"node-exporter\"} +\n    node_memory_Slab_bytes{job=\"node-exporter\"}\n  )\n) by (cluster)\n",
                "record": ":node_memory_MemAvailable_bytes:sum"
             }
          ]

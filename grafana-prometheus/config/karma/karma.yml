@@ -1,0 +1,28 @@
+karma:
+  name: alerts
+listen:
+  address: "0.0.0.0"
+  port: 8082
+  prefix: /
+annotations:
+  order:
+  - display_name
+  - description
+  hidden: []
+receivers:
+  keep: []
+  strip: []
+labels:
+  color:
+    static: []
+    unique: []
+    custom:
+      severity:
+      - value: info
+        color: "#87c4e0"
+      - value: warning
+        color: "#ffae42"
+      - value: critical
+        color: "#ff220c"
+  keep: []
+  strip: []
