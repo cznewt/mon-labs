@@ -8,7 +8,7 @@ services:
       - --storage.path=/alertmanager
     devices: []
     environment: []
-    image: prom/alertmanager:v0.19.0
+    image: prom/alertmanager:v0.21.0
     networks:
       - overlay
     ports:
@@ -18,12 +18,24 @@ services:
       - ./config/alertmanager/:/etc/alertmanager:rw
       - ./config/alertmanager_templates/:/etc/alertmanager-templates:rw
       - ./volume/alertmanager/:/alertmanager:rw
+  karma:
+    devices: []
+    environment:
+    - CONFIG_FILE=/config/karma.yml
+    - ALERTMANAGER_URI=http://alertmanager:9093
+    image: docker.io/lmierzwa/karma:v0.70
+    network_mode: host
+    ports:
+      - 8082:8082/tcp
+    restart: always
+    volumes:
+      - ./config/karma/:/config/:rw
   blackbox-exporter:
     command:
       - --config.file=/etc/blackbox-exporter/config.yml
     devices: []
     environment: []
-    image: prom/blackbox-exporter:v0.16.0
+    image: prom/blackbox-exporter:v0.17.0
     networks:
       - overlay
     ports:
@@ -31,11 +43,24 @@ services:
     restart: always
     volumes:
       - ./config/blackbox_exporter/:/etc/blackbox-exporter:rw
+  cloudprober:
+    command:
+      - --config_file=/etc/cloudprober/cloudprober.cfg
+    devices: []
+    environment: []
+    image: cloudprober/cloudprober:v0.10.9
+    networks:
+      - overlay
+    ports:
+      - 9313:9313/tcp
+    restart: always
+    volumes:
+      - ./config/cloudprober/:/etc/cloudprober:rw
   cadvisor:
     command: []
     devices: []
     environment: []
-    image: google/cadvisor:v0.31.0
+    image: google/cadvisor:v0.33.0
     networks:
       - overlay
     ports:
@@ -55,7 +80,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=heslo
       - GF_SECURITY_ADMIN_USER=admin
       - GF_USERS_ALLOW_SIGN_UP=false
-    image: grafana/grafana:6.5.0
+    image: grafana/grafana:7.2.0
     networks:
       - overlay
     ports:
@@ -74,7 +99,7 @@ services:
       - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
     devices: []
     environment: []
-    image: prom/node-exporter:v0.18.1
+    image: prom/node-exporter:v1.0.1
     networks:
       - overlay
     ports:
@@ -92,7 +117,7 @@ services:
       - --web.enable-lifecycle
     devices: []
     environment: []
-    image: prom/prometheus:v2.14.0
+    image: prom/prometheus:v2.21.0
     networks:
       - overlay
     ports:
