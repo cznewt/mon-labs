@@ -1,0 +1,10 @@
+[
+  {
+    "labels": {
+      "name": "nasa-swpc"
+    },
+    "targets": [
+      "nasa-swpc-exporter:9468"
+    ]
+  }
+]

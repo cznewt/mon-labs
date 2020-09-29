@@ -57,9 +57,6 @@ services:
     volumes:
       - ./config/cloudprober/:/etc/cloudprober:rw
   cadvisor:
-    command: []
-    devices: []
-    environment: []
     image: google/cadvisor:v0.33.0
     networks:
       - overlay
@@ -72,8 +69,6 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
   grafana:
-    command: []
-    devices: []
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-worldmap-panel,natel-discrete-panel,jdbranham-diagram-panel,neocat-cal-heatmap-panel,grafana-simple-json-datasource,grafana-azure-monitor-datasource,camptocamp-prometheus-alertmanager-datasource
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
@@ -97,8 +92,6 @@ services:
       - --path.sysfs=/host/sys
       - --collector.filesystem.ignored-mount-points
       - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
-    devices: []
-    environment: []
     image: prom/node-exporter:v1.0.1
     networks:
       - overlay
@@ -115,8 +108,6 @@ services:
       - --storage.tsdb.path=/data
       - --storage.tsdb.retention=14d
       - --web.enable-lifecycle
-    devices: []
-    environment: []
     image: prom/prometheus:v2.21.0
     networks:
       - overlay
@@ -128,9 +119,6 @@ services:
       - ./config/prometheus/:/etc/prometheus/:rw
       - ./volume/prometheus/:/data:rw
   nasa-swpc-exporter:
-    command: []
-    devices: []
-    environment: []
     image: cznewt/nasa-swpc-exporter:latest
     networks:
       - overlay
@@ -140,8 +128,6 @@ services:
   statsd-exporter:
     command:
       - --statsd.mapping-config=/etc/statsd-exporter/mapping.yml
-    devices: []
-    environment: []
     image: prom/statsd-exporter:v0.7.0
     networks:
       - overlay
@@ -152,5 +138,13 @@ services:
     restart: always
     volumes:
       - ./config/statsd_exporter/:/etc/statsd-exporter/:rw
+  pushgateway:
+    image: prom/pushgateway:v1.2.0
+    networks:
+      - overlay
+    ports:
+      - 9091:9091/tcp
+    restart: always
+
 version: '3.5'
 volumes: {}
