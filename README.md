@@ -8,10 +8,11 @@ Simple monitoring infrastructure.
 * grafana - http://localhost:3000/ admin:heslo https://grafana.com/docs/
 * prometheus - http://localhost:9090/ https://prometheus.io/docs/
 * blackbox-exporter http://localhost:9115/
-* cloudprober http://localhost:9313/ https://cloudprober.org/
+* cloudprober http://localhost:9313/metrics https://cloudprober.org/
 * node-exporter http://http://localhost:9100/
 * cadvisor http://localhost:8080/containers/
-* statsd-exporter http://localhost:9313/
+* pushgateway http://localhost:9091/ https://github.com/prometheus/pushgateway
+* statsd-exporter http://localhost:9102/
 
 ## Monitoring Mixins
 

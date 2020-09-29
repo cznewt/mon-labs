@@ -3,6 +3,9 @@ grafana-prometheus/volume/prometheus/lock
 grafana-prometheus/volume/prometheus/0*/
 grafana-prometheus/volume/prometheus/1*/
 grafana-prometheus/volume/prometheus/2*/
+grafana-prometheus/volume/prometheus/3*/
+grafana-prometheus/volume/prometheus/4*/
+grafana-prometheus/volume/prometheus/chunks_head
 grafana-prometheus/volume/prometheus/queries.active
 grafana-prometheus/volume/grafana/dashboards/
 grafana-prometheus/volume/grafana/plugins/
