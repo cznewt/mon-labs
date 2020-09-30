@@ -13,6 +13,10 @@ rule_files:
   - /etc/prometheus-rules/*.yaml
 scrape_configs:
   # Blackbox exporter - HTTP
+  - job_name: 'nasa-swpc'
+    file_sd_configs:
+    - files:
+      - 'file-sd-targets.json'
   - job_name: blackbox-http-2xx
     metrics_path: /probe
     params:
