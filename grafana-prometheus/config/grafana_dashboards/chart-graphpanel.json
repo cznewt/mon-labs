@@ -36,6 +36,7 @@
             "min": false,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": false
          },
@@ -54,14 +55,14 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "rate(node_network_receive_bytes_total{}[1m])",
+               "expr": "rate(node_network_receive_bytes_total[1m])",
                "format": "time_series",
                "intervalFactor": 2,
                "legendFormat": "Rx",
                "refId": "A"
             },
             {
-               "expr": "irate(node_network_transmit_bytes_total{}) * (-1)",
+               "expr": "irate(node_network_transmit_bytes_total[1m]) * (-1)",
                "format": "time_series",
                "intervalFactor": 2,
                "legendFormat": "Tx",
@@ -71,7 +72,7 @@
          "thresholds": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "Network traffic on eth0",
+         "title": "Network traffic",
          "tooltip": {
             "shared": true,
             "sort": 0,

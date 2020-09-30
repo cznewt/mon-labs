@@ -21,7 +21,7 @@ init_utils:
 	./init_libmetric.sh
 
 build_demo_mixin:
-	./sjsonnet.jar -J kubernetes-mixin/vendor -m ./grafana-prometheus/config/grafana_dashboards mixins/demo-mixin/dashboards.jsonnet
+	./sjsonnet.jar -J mixins/vendor -m ./grafana-prometheus/config/grafana_dashboards mixins/demo-mixin/dashboards.jsonnet
 
 convert_grafana_dashboards:
 	mkdir grafana_out -p

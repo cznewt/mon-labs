@@ -22,7 +22,6 @@ local chartSinglestat =
 local chartPieChartPanel =
   pieChartPanel.new(
     'test',
-    span=12,
     datasource='$PROMETHEUS',
     description='description',
     aliasColors={ '2xx': '#7EB26D', '4xx': '#F2C96D', '5xx': '#BF1B00' },
@@ -31,12 +30,12 @@ local chartPieChartPanel =
     repeatDirection='h',
     maxPerRow=5,
   )
-  .addTarget({ a: 'foo' })
-  .addTarget({ b: 'foo' });
+  .addTarget({ a: 'node_load1' })
+  .addTarget({ b: 'node_load15' });
 
 local chartGraphPanel =
   graphPanel.new(
-    title='Network traffic on eth0',
+    title='Network traffic',
     datasource='Prometheus',
     linewidth=2,
     format='Bps',
@@ -46,12 +45,12 @@ local chartGraphPanel =
     },
   ).addTarget(
     prometheus.target(
-      'rate(node_network_receive_bytes_total{}[1m])',
+      'rate(node_network_receive_bytes_total[1m])',
       legendFormat='Rx',
     )
   ).addTarget(
     prometheus.target(
-      'irate(node_network_transmit_bytes_total{}) * (-1)',
+      'irate(node_network_transmit_bytes_total[1m]) * (-1)',
       legendFormat='Tx',
     )
   );
@@ -97,7 +96,7 @@ local instance_template = template.new(
       .addTemplate(instance_template)
       .addPanels(
         [
-          chartPieChart { gridPos: { h: 10, w: 10, x: 0, y: 4 } },
+          chartPieChartPanel { gridPos: { h: 10, w: 10, x: 0, y: 4 } },
         ]
       ),
   },
