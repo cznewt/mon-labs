@@ -12,24 +12,13 @@
    "links": [ ],
    "panels": [
       {
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": true,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "datasource": "Prometheus",
-         "decimals": 2,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
+         "aliasColors": {
+            "2xx": "#7EB26D",
+            "4xx": "#F2C96D",
+            "5xx": "#BF1B00"
          },
+         "datasource": "$PROMETHEUS",
+         "description": "description",
          "gridPos": {
             "h": 10,
             "w": 10,
@@ -37,60 +26,28 @@
             "y": 4
          },
          "id": 2,
-         "interval": null,
-         "links": [ ],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "connected",
-         "nullText": null,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
+         "legend": {
+            "percentage": true,
+            "show": true,
+            "values": true
          },
-         "tableColumn": "",
+         "legendType": "Right side",
+         "maxPerRow": 5,
+         "pieType": "donut",
+         "repeat": "repeat_variable",
+         "repeatDirection": "h",
          "targets": [
             {
-               "expr": "node_load5{instance=\"$instance\"}",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "",
+               "a": "node_load1",
                "refId": "A"
-            }
-         ],
-         "thresholds": "4,6",
-         "title": "5m system load",
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
+            },
             {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
+               "b": "node_load15",
+               "refId": "B"
             }
          ],
+         "title": "test",
+         "type": "grafana-piechart-panel",
          "valueName": "current"
       }
    ],
