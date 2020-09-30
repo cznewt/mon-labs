@@ -1,1 +1,2 @@
-(import 'charts.libsonnet')
+(import 'charts.libsonnet') +
+(import 'prom-red.libsonnet')
