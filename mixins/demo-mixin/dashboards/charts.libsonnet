@@ -4,6 +4,8 @@ local template = grafana.template;
 local singlestat = grafana.singlestat;
 local graphPanel = grafana.graphPanel;
 local pieChartPanel = grafana.pieChartPanel;
+local gaugePanel = grafana.gaugePanel;
+local heatmapPanel = grafana.heatmapPanel;
 local prometheus = grafana.prometheus;
 
 local chartSinglestat =
@@ -19,11 +21,24 @@ local chartSinglestat =
     )
   );
 
+local chartHeatmap =
+  heatmapPanel.new(
+    'color spectrum cubehelix test',
+    color_mode='spectrum',
+    color_min=0,
+    color_max=100,
+    color_colorScheme='interpolateCubehelixDefault',
+    dataFormat='tsbuckets',
+  )
+  .addTarget(
+    prometheus.target(
+      'rate(node_network_receive_bytes_total[1m])',
+      legendFormat='Rx',
+    )
+  );
 local chartPieChartPanel =
   pieChartPanel.new(
-    'test',
-    datasource='$PROMETHEUS',
-    description='description',
+    'Pie Chart Demo',
     aliasColors={ '2xx': '#7EB26D', '4xx': '#F2C96D', '5xx': '#BF1B00' },
     pieType='donut',
     repeat='repeat_variable',
@@ -33,9 +48,21 @@ local chartPieChartPanel =
   .addTarget({ a: 'node_load1' })
   .addTarget({ b: 'node_load15' });
 
+local chartGaugePanel =
+  gaugePanel.new(
+    'Gauge Demo',
+    min=10,
+    max=95,
+  ).addThresholds([
+    { color: 'green', value: 0 },
+    { color: 'yellow', value: 50 },
+    { color: 'red', value: 80 },
+  ])
+  .addTarget({ a: 'node_load1' });
+
 local chartGraphPanel =
   graphPanel.new(
-    title='Network traffic',
+    title='Graph Demo',
     datasource='Prometheus',
     linewidth=2,
     format='Bps',
@@ -73,7 +100,7 @@ local instance_template = template.new(
 {
   grafanaDashboards+:: {
     'chart-singlestat.json':
-      dashboard.new('Chart Singlestat', schemaVersion=18)
+      dashboard.new('Chart / Single Stats', schemaVersion=18)
       .addTemplate(datasource_template)
       .addTemplate(instance_template)
       .addPanels(
@@ -81,8 +108,8 @@ local instance_template = template.new(
           chartSinglestat { gridPos: { h: 4, w: 3, x: 0, y: 0 } },
         ]
       ),
-    'chart-graphpanel.json':
-      dashboard.new('Chart GraphPanel', schemaVersion=18)
+    'chart-graph.json':
+      dashboard.new('Chart / Graph', schemaVersion=18)
       .addTemplate(datasource_template)
       .addTemplate(instance_template)
       .addPanels(
@@ -90,8 +117,17 @@ local instance_template = template.new(
           chartGraphPanel { gridPos: { h: 8, w: 12, x: 0, y: 0 } },
         ]
       ),
+    'chart-gauge.json':
+      dashboard.new('Chart / Gauge', schemaVersion=18)
+      .addTemplate(datasource_template)
+      .addTemplate(instance_template)
+      .addPanels(
+        [
+          chartGaugePanel { gridPos: { h: 10, w: 10, x: 0, y: 4 } },
+        ]
+      ),
     'chart-piechart.json':
-      dashboard.new('Chart PieChart', schemaVersion=18)
+      dashboard.new('Chart / Pie Chart', schemaVersion=18)
       .addTemplate(datasource_template)
       .addTemplate(instance_template)
       .addPanels(

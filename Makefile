@@ -22,6 +22,7 @@ init_utils:
 
 build_demo_mixin:
 	./sjsonnet.jar -J mixins/vendor -m ./grafana-prometheus/config/grafana_dashboards mixins/demo-mixin/dashboards.jsonnet
+	./sjsonnet.jar -J mixins/vendor -m ./grafana-prometheus/config/prometheus_rules mixins/demo-mixin/alerts.jsonnet
 
 convert_grafana_dashboards:
 	mkdir grafana_out -p

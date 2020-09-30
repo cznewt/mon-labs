@@ -10,7 +10,5 @@ else
 	chmod +x sjsonnet.jar
 fi
 
-#sudo apt install -y default-jre
-
-echo "Requires Java RE, currently installed:"
-#java --version
+echo "Requires Java RE, currently installed"
+java --version
