@@ -82,7 +82,7 @@
                "text": "Prometheus",
                "value": "Prometheus"
             },
-            "hide": 1,
+            "hide": 0,
             "label": null,
             "name": "PROMETHEUS_DS",
             "options": [ ],

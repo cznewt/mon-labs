@@ -8,7 +8,7 @@ local gaugePanel = grafana.gaugePanel;
 local heatmapPanel = grafana.heatmapPanel;
 local prometheus = grafana.prometheus;
 
-local chartSinglestat =
+local chartSinglestatPanel =
   singlestat.new(
     title='Version',
     datasource='Prometheus',
@@ -21,7 +21,7 @@ local chartSinglestat =
     )
   );
 
-local chartHeatmap =
+local chartHeatmapPanel =
   heatmapPanel.new(
     'color spectrum cubehelix test',
     color_mode='spectrum',
@@ -77,16 +77,63 @@ local chartGraphPanel =
     )
   ).addTarget(
     prometheus.target(
-      'irate(node_network_transmit_bytes_total[1m]) * (-1)',
+      'irate(node_network_transmit_bytes_total[1m])',
       legendFormat='Tx',
     )
   );
+
+local chartStackedGraphPanel =
+  graphPanel.new(
+    title='Graph Demo',
+    datasource='Prometheus',
+    linewidth=2,
+    stack=true,
+    format='Bps',
+    aliasColors={
+      Rx: 'light-green',
+      Tx: 'light-red',
+    },
+  ).addTarget(
+    prometheus.target(
+      'rate(node_network_receive_bytes_total[1m])',
+      legendFormat='Rx',
+    )
+  ).addTarget(
+    prometheus.target(
+      'irate(node_network_transmit_bytes_total[1m])',
+      legendFormat='Tx',
+    )
+  );
+
+local chartBarGraphPanel =
+  graphPanel.new(
+    title='Graph Demo',
+    datasource='Prometheus',
+    linewidth=0,
+    bars=true,
+    stack=true,
+    format='Bps',
+    aliasColors={
+      Rx: 'light-green',
+      Tx: 'light-red',
+    },
+  ).addTarget(
+    prometheus.target(
+      'rate(node_network_receive_bytes_total[1m])',
+      legendFormat='Rx',
+    )
+  ).addTarget(
+    prometheus.target(
+      'irate(node_network_transmit_bytes_total[1m])',
+      legendFormat='Tx',
+    )
+  );
+
 
 local datasource_template = template.datasource(
   'PROMETHEUS_DS',
   'prometheus',
   'Prometheus',
-  hide='label',
 );
 
 local instance_template = template.new(
@@ -105,7 +152,7 @@ local instance_template = template.new(
       .addTemplate(instance_template)
       .addPanels(
         [
-          chartSinglestat { gridPos: { h: 4, w: 3, x: 0, y: 0 } },
+          chartSinglestatPanel { gridPos: { h: 4, w: 3, x: 0, y: 0 } },
         ]
       ),
     'chart-graph.json':
@@ -114,7 +161,9 @@ local instance_template = template.new(
       .addTemplate(instance_template)
       .addPanels(
         [
-          chartGraphPanel { gridPos: { h: 8, w: 12, x: 0, y: 0 } },
+          chartStackedGraphPanel { gridPos: { h: 8, w: 24, x: 0, y: 0 } },
+          chartGraphPanel { gridPos: { h: 8, w: 12, x: 0, y: 8 } },
+          chartBarGraphPanel { gridPos: { h: 8, w: 12, x: 12, y: 8 } },
         ]
       ),
     'chart-gauge.json':

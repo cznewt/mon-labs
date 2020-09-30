@@ -23,11 +23,105 @@
          "fill": 1,
          "gridPos": {
             "h": 8,
-            "w": 12,
+            "w": 24,
             "x": 0,
             "y": 0
          },
          "id": 2,
+         "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sideWidth": null,
+            "total": false,
+            "values": false
+         },
+         "lines": true,
+         "linewidth": 2,
+         "links": [ ],
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [ ],
+         "spaceLength": 10,
+         "stack": true,
+         "steppedLine": false,
+         "targets": [
+            {
+               "expr": "rate(node_network_receive_bytes_total[1m])",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "Rx",
+               "refId": "A"
+            },
+            {
+               "expr": "irate(node_network_transmit_bytes_total[1m])",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "Tx",
+               "refId": "B"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "Graph Demo",
+         "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "format": "Bps",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": null,
+               "show": true
+            },
+            {
+               "format": "Bps",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": null,
+               "show": true
+            }
+         ]
+      },
+      {
+         "aliasColors": {
+            "Rx": "light-green",
+            "Tx": "light-red"
+         },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "Prometheus",
+         "fill": 1,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 8
+         },
+         "id": 3,
          "legend": {
             "alignAsTable": false,
             "avg": false,
@@ -62,7 +156,101 @@
                "refId": "A"
             },
             {
-               "expr": "irate(node_network_transmit_bytes_total[1m]) * (-1)",
+               "expr": "irate(node_network_transmit_bytes_total[1m])",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "Tx",
+               "refId": "B"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "Graph Demo",
+         "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "format": "Bps",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": null,
+               "show": true
+            },
+            {
+               "format": "Bps",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": null,
+               "show": true
+            }
+         ]
+      },
+      {
+         "aliasColors": {
+            "Rx": "light-green",
+            "Tx": "light-red"
+         },
+         "bars": true,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "Prometheus",
+         "fill": 1,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 8
+         },
+         "id": 4,
+         "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sideWidth": null,
+            "total": false,
+            "values": false
+         },
+         "lines": true,
+         "linewidth": 0,
+         "links": [ ],
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [ ],
+         "spaceLength": 10,
+         "stack": true,
+         "steppedLine": false,
+         "targets": [
+            {
+               "expr": "rate(node_network_receive_bytes_total[1m])",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "Rx",
+               "refId": "A"
+            },
+            {
+               "expr": "irate(node_network_transmit_bytes_total[1m])",
                "format": "time_series",
                "intervalFactor": 2,
                "legendFormat": "Tx",
@@ -118,7 +306,7 @@
                "text": "Prometheus",
                "value": "Prometheus"
             },
-            "hide": 1,
+            "hide": 0,
             "label": null,
             "name": "PROMETHEUS_DS",
             "options": [ ],
