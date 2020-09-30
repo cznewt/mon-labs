@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd mixins
+
 if test -d kubernetes-mixin; then
     echo "kubernetes-mixin exists, skipping."
 else
