@@ -17,8 +17,8 @@
             "4xx": "#F2C96D",
             "5xx": "#BF1B00"
          },
-         "datasource": "$PROMETHEUS",
-         "description": "description",
+         "datasource": null,
+         "description": "",
          "gridPos": {
             "h": 10,
             "w": 10,
@@ -46,7 +46,7 @@
                "refId": "B"
             }
          ],
-         "title": "test",
+         "title": "Pie Chart Demo",
          "type": "grafana-piechart-panel",
          "valueName": "current"
       }
@@ -124,6 +124,6 @@
       ]
    },
    "timezone": "browser",
-   "title": "Chart PieChart",
+   "title": "Chart / Pie Chart",
    "version": 0
 }

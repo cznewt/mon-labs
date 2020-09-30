@@ -72,7 +72,7 @@
          "thresholds": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "Network traffic",
+         "title": "Graph Demo",
          "tooltip": {
             "shared": true,
             "sort": 0,
@@ -179,6 +179,6 @@
       ]
    },
    "timezone": "browser",
-   "title": "Chart GraphPanel",
+   "title": "Chart / Graph",
    "version": 0
 }
