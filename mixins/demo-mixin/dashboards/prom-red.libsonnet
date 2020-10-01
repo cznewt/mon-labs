@@ -75,6 +75,5 @@ local singlestat = grafana.singlestat;
         .addPanel(serviceStatus)
         .addPanel(serviceLatency)
       ),
-
   },
 }
